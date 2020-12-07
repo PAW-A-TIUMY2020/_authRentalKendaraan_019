@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using RentalKendaraan_019.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RentalKendaraan_019.Models;
 
 namespace RentalKendaraan_019
 {
@@ -34,13 +35,14 @@ namespace RentalKendaraan_019
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<RentKendaraanContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                    Configuration.GetConnectionString("DevConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultUI()
+                .AddEntityFrameworkStores<RentKendaraanContext>().AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
